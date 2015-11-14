@@ -52,6 +52,14 @@ NeoBundle 'mattn/emmet-vim'
 " Gitを楽に使うことができる
 NeoBundle 'tpope/vim-fugitive'
 
+" Node.jsの補完
+NeoBundle 'myhere/vim-nodejs-complete'
+
+" javascriptのsyntaxカラー
+NeoBundle 'pangloss/vim-javascript'
+
+
+
 call neobundle#end()
 
 NeoBundleCheck
@@ -85,6 +93,30 @@ let g:syntastic_ruby_checkers = ['rubocop']
 " quickrun
 " --------------------------------
 let g:quickrun_config = {'_': {"outputter/buffer/split" : ":botright"},}
+
+" --------------------------------
+"          Node.js　補完
+" --------------------------------
+
+autocmd FileType javascript setlocal omnifunc=nodejscomplete#CompleteJS
+if !exists('g:neocomplcache_omni_functions')
+  let g:neocomplcache_omni_functions = {}
+endif
+let g:neocomplcache_omni_functions.javascript = 'nodejscomplete#CompleteJS'
+
+let g:node_usejscomplete = 1
+" Ctrl + fで補完できるようにした
+imap <C-f> <C-x><C-o>
+
+
+
+
+
+
+
+
+
+
 
 " --------------------------------
 " 基本設定
