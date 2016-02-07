@@ -22,7 +22,7 @@ NeoBundle 'marcus/rsense'
 NeoBundle 'supermomonga/neocomplete-rsense.vim'
 
 " 静的解析
-" NeoBundle 'scrooloose/syntastic'
+NeoBundle 'scrooloose/syntastic'
 
 " scala用syntax highlight
 NeoBundle 'derekwyatt/vim-scala'
@@ -76,6 +76,9 @@ NeoBundleCheck
 let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
+" DOMとMozilla関連とES6のメソッドを補完
+let g:jscomplete_use = ['dom', 'moz', 'es6th']
+
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
@@ -109,11 +112,23 @@ let g:node_usejscomplete = 1
 imap <C-f> <C-x><C-o>
 
 
-
-
-
-
-
+" --------------------------------
+"         Syntasticの設定
+" --------------------------------
+let g:syntastic_check_on_open=0 "ファイルを開いたときはチェックしない
+let g:syntastic_check_on_save=1 "保存時にはチェック
+let g:syntastic_check_on_wq = 0 " wqではチェックしない
+let g:syntastic_auto_loc_list=1 "エラーがあったら自動でロケーションリストを開く
+let g:syntastic_loc_list_height=6 "エラー表示ウィンドウの高さ
+set statusline+=%#warningmsg# "エラーメッセージの書式
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_javascript_checkers = ['eslint'] "ESLintを使う
+let g:syntastic_mode_map = {
+      \ 'mode': 'active',
+      \ 'active_filetypes': ['javascript','ruby'],
+      \ 'passive_filetypes': []
+      \ }
 
 
 
@@ -149,6 +164,7 @@ set ignorecase "大文字/小文字の区別なく検索する
 set smartcase "検索文字列に大文字が含まれている場合は区別して検索する
 set wrapscan "検索時に最後まで行ったら最初に戻る
 set clipboard+=unnamed " クリップボードを他のと連帯する
+set noswapfile
 
 "インデントに関する設定
 set expandtab "タブを複数のスペースに変更する
@@ -189,5 +205,27 @@ endif
 "
 " inoreabbrev <buffer> ## <C-R>=MagicComment()<CR>
 
+" ---------------------------------
+"  括弧補完
+" ---------------------------------
+inoremap [ []<LEFT>
+inoremap ( ()<LEFT>
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
+
+inoremap { {}<Left>
+inoremap {<Enter> {}<Left><CR><ESC><S-o>
+
+" insertモードから抜ける
+inoremap <silent> jj <ESC>
+inoremap <silent> <C-j> j
+
+
+
+" 挿入モードでのカーソル移動
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
 
 
